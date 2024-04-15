@@ -9,3 +9,13 @@ spec:
     value: "21"
   buildpacks:
     builder: "paketobuildpacks/builder-jammy-base"
+
+  postBuildSteps:
+  - namedTask: tanzu-spring-boot-config
+
+  runtimes:
+  - name: kubernetes-carvel-package
+    description: Deployment-based Kubernetes configuration
+    steps:
+    - namedTask: tanzu-kubernetes-deployment
+    - namedTask: tanzu-carvel-package
