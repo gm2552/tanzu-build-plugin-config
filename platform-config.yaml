@@ -9,9 +9,24 @@ spec:
     value: "21"
   buildpacks:
     builder: "paketobuildpacks/builder-jammy-base"
+  postbuildsteps:
+  - namedtask: tanzu-spring-boot
+  # - name: add-env
+  #   containertask:
+  #     image: tomkennedy73/container-app-modifier
+  #     args: ["some-env-name=some-env-value"]
   runtimes:
   - name: kubernetes-carvel-package
-    description: Deployment-based Kubernetes configuration
+    description: create a carvel package for deploying on kubernetes
     steps:
-    - namedTask: tanzu-kubernetes-deployment
-    - namedTask: tanzu-carvel-package
+    - namedtask: tanzu-kubernetes-deployment
+    - namedtask: tanzu-kubernetes-carvel-package
+  - name: kubernetes-plain
+    description: create kubernetes yaml files for deploying on kubernetes
+    steps:
+    - namedtask: tanzu-kubernetes-deployment
+  - name: container-image
+    description: write image to file for use with container runtime (i.e docker run)
+    steps:
+    - namedtask: tanzu-container-image
+
