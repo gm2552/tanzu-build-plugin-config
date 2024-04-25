@@ -9,3 +9,9 @@ spec:
     value: "21"
   buildpacks:
     builder: "paketobuildpacks/builder-jammy-base"
+  runtimes:
+  - name: kubernetes-carvel-package
+    description: Deployment-based Kubernetes configuration
+    steps:
+    - namedTask: tanzu-kubernetes-deployment
+    - namedTask: tanzu-carvel-package
